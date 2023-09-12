@@ -1,7 +1,12 @@
-import { Button } from "@/components/ui/button";
+import { UserButton } from "@clerk/nextjs"
+
 
 export default function Dashboard() {
   return (
-    <Button variant="default">Hello</Button>
+    <div>
+      <h1 className="text-3xl font-bold text-center">Dashboard</h1>
+      <UserButton afterSignOutUrl="/"/>
+      
+    </div>
   )
 }
