@@ -1,9 +1,12 @@
-"use client "
+"use client"
 import Link from 'next/link'
-import { Code2, ImageIcon, LayoutDashboard, MessageSquare, Settings, Video, VideoIcon } from 'lucide-react'
+import { Code2, ImageIcon, LayoutDashboard, MessageSquare, Settings, Text, Video, VideoIcon } from 'lucide-react'
+import {usePathname} from 'next/navigation'
 import { cn } from '@/lib/utils'
 const Sidebar = () => {
-    const routes =[
+  const pathname= usePathname();
+
+  const routes =[
         {
             name: 'Dashboard',
             icon: LayoutDashboard,
@@ -31,6 +34,11 @@ const Sidebar = () => {
             href: '/chat',
             color: 'text-indigo-400'
         },{
+            name:"Paragraph resume",
+            icon: Text,
+            href: '/paragraph',
+            color: 'text-red-400'
+        },{
             name:"Settings",
             icon: Settings,
             href: '/settings',
@@ -40,7 +48,7 @@ const Sidebar = () => {
     ]
 
     return(
-        <div className="flex h-screen  text-white">
+        <div className=" sidebar flex h-screen  text-white">
         <div className=" w-64 flex-shrink-0">
           <div className="p-8">
             <Link href="/dashboard" className="font-bold text-3xl text-white">
@@ -50,7 +58,7 @@ const Sidebar = () => {
           <div className="mt-4">
             {routes.map((route) => (
               <Link href={route.href} key={route.href}>
-                <div className="flex items-center py-2 px-4 group hover:bg-gray-700 ">
+                <div className={cn("flex items-center py-2 px-4 group hover:bg-gray-700 ",pathname== route.href ?'text-white bg-white/10':'text-zinc-400'  )}>
                   <route.icon className={cn( "h-6 w-6 m-3 ", route.color)} />
                   <span className="text-base">{route.name}</span>
                 </div>
