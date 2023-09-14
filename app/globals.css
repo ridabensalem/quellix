@@ -80,3 +80,9 @@ body,
     @apply bg-background text-foreground;
   }
 }
+/* Sidebar Mobile  */
+@media screen and (max-width: 767px) {
+  .sidebar{
+    background-color: #020c1b;
+  }
+}
