@@ -22,7 +22,7 @@ const Sidebar = () => {
             name: 'Video generator',
             icon: VideoIcon,
             href: '/video',
-            color: 'text-amber-400'
+            color: 'text-amber-500'
         },{
             name:"Code generator",
             icon: Code2,
