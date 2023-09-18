@@ -2,7 +2,7 @@
 import * as z from "zod";
 import axios from "axios";
 import { useState } from "react";
-import EmptyChat from "@/components/ui/empty_chat";
+import EmptyCode from "@/components/ui/empty_chat";
 import { ChatCompletionRequestMessage } from "openai";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,8 +13,9 @@ import { Button } from "@/components/ui/button";
 import formSchema from "./constant";
 import { Loader } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
 
-const ChatPage = () => {
+const CodePage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
@@ -36,7 +37,7 @@ const ChatPage = () => {
 
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post('/api/chat', { messages: newMessages });
+      const response = await axios.post('/api/code', { messages: newMessages });
       setMessages((current) => [...current, userMessage, response.data]);
       console.log(response.data);
       form.reset();
@@ -52,10 +53,10 @@ const ChatPage = () => {
     <div className="text-center py-8">
       <h1 className="md:text-5xl font-extrabold">
         {" "}
-        Welcome to Our AI <span className="text-indigo-500"> Chat</span>{" "}
+        Welcome to Our Code <span className="text-green-400"> Generator</span>{" "}
       </h1>
       <p className="mt-4 md:text-xl text-gray-600">
-        Engage in Conversations with your smart AI assistant
+        Develop your code with the help of AI 
       </p>
       <div className="mt-12 flex justify-center">
         <Form {...form}>
@@ -83,7 +84,7 @@ const ChatPage = () => {
                     <Input
                       className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                       disabled={isLoading}
-                      placeholder="How do I calculate the radius of a circle?"
+                      placeholder="What is Jsx?"
                       {...field}
                     />
                   </FormControl>
@@ -99,24 +100,34 @@ const ChatPage = () => {
       <div className="mt-8">
         {isLoading && (
           <div className="p-8 rounded-lg w-full flex items-center justify-center ">
-            <Loader className="animate-spin h-8 w-8 text-indigo-500 mr-3" />
+            <Loader className="animate-spin h-8 w-8 text-green-400 mr-3" />
             {"Generating..."}
           </div>
         )}
         {messages.length === 0 && !isLoading && (
-          <EmptyChat />
+          <EmptyCode />
         )}
       {messages.map((message) => (
   <div
     key={message.content}
     className={cn(
-      "p-4 mx-8 my-4  flex items-start gap-4 rounded-lg",
+      "p-4 mx-8 my-4  flex text-start  gap-4 rounded-lg",
       message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
     )}
   >
-    <p className="text-sm">
-      {message.content}
-    </p>
+     <ReactMarkdown components={{
+                  pre: ({ node, ...props }) => (
+                    <div className="overflow-auto w-full my-2 bg-black text-white p-2 rounded-lg">
+                      <pre {...props} />
+                    </div>
+                  ),
+                  code: ({ node, ...props }) => (
+                    <code className="bg-black/10 rounded-lg p-1" {...props} />
+                  )
+                }} className="text-sm overflow-hidden leading-7">
+                  {message.content || ""}
+      </ReactMarkdown>
+
   </div>
 ))}
 
@@ -125,4 +136,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default CodePage;
