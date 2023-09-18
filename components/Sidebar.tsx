@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link'
-import { Code2, ImageIcon, LayoutDashboard, MessageSquare, Settings, Text, Video, VideoIcon } from 'lucide-react'
+import { Code2, ImageIcon, LayoutDashboard, MessageSquare, Settings, VideoIcon, Volume2 } from 'lucide-react'
 import {usePathname} from 'next/navigation'
 import { cn } from '@/lib/utils'
 const Sidebar = () => {
@@ -34,9 +34,9 @@ const Sidebar = () => {
             href: '/chat',
             color: 'text-indigo-400'
         },{
-            name:"Paragraph resume",
-            icon: Text,
-            href: '/paragraph',
+            name:"Voice generator",
+            icon: Volume2,
+            href: '/voice',
             color: 'text-red-400'
         },{
             name:"Settings",
