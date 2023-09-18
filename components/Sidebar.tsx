@@ -17,7 +17,7 @@ const Sidebar = () => {
             name: 'Image generator',
             icon: ImageIcon,
             href: '/image',
-            color: 'text-fuchsia-400'
+            color: 'text-fuchsia-500'
         },{
             name: 'Video generator',
             icon: VideoIcon,
