@@ -2,8 +2,15 @@
 import Link from 'next/link'
 import { Code2, ImageIcon, LayoutDashboard, MessageSquare, Settings, VideoIcon, Volume2 } from 'lucide-react'
 import {usePathname} from 'next/navigation'
+import FreeCounter from '@/components/freeCounter'
 import { cn } from '@/lib/utils'
-const Sidebar = () => {
+ 
+
+interface SidebarProps {
+    apiLimitCount: number
+}
+
+const Sidebar = ({apiLimitCount = 0}:SidebarProps) => {
   const pathname= usePathname();
 
   const routes =[
@@ -63,11 +70,14 @@ const Sidebar = () => {
                   <span className="text-base">{route.name}</span>
                 </div>
               </Link>
+              
             ))}
           </div>
+          <div className='pt-48 '>
+          <FreeCounter apiLimitCount={apiLimitCount}/>
+          </div>
         </div>
-        <div className="flex-1 p-4">
-        </div>
+        
       </div>
       
     )
