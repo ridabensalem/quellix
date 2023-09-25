@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import {Configuration} from "openai";
 import {OpenAIApi}  from "openai";
 import { NextResponse } from "next/server";
+import { checkApiLimit, incrementApiLimit } from "@/lib/apiLimit";
 
 
 
@@ -9,6 +10,7 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+const freeTrail = checkApiLimit();
 
 
 export async function POST(
@@ -30,6 +32,9 @@ export async function POST(
     if (!resolution) {
       return new NextResponse("Resolution is required", { status: 400 });
     }
+    if (!freeTrail) {
+      return new NextResponse("You have reached your free limit", { status: 403 });
+    }
 
     const response = await openai.createImage({
       prompt,
@@ -37,6 +42,7 @@ export async function POST(
       size: resolution
      
     });
+  await incrementApiLimit();
 
   // Check if the response structure is as expected
   if (response.data && response.data.data) {
