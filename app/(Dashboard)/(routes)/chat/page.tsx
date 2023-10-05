@@ -6,6 +6,7 @@ import EmptyChat from "@/components/ui/empty_chat";
 import { ChatCompletionRequestMessage } from "openai";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useProModal } from "@/app/hooks/pro_modal";
 import { useRouter } from "next/navigation";
 import { Form, FormItem, FormField, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils";
 const ChatPage = () => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,7 +43,9 @@ const ChatPage = () => {
       console.log(response.data);
       form.reset();
     } catch (error: any) {
-      console.error(error);
+      if (error.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       // refresh the router 
       router.refresh();

@@ -2,6 +2,7 @@
 import * as z from "zod";
 import axios from "axios";
 import { useState } from "react";
+import { useProModal } from "@/app/hooks/pro_modal";
 import EmptyVoice from "@/components/ui/empty_voice";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -31,7 +32,9 @@ const [voice, setVoice] = useState <string>();
       setVoice (response.data);
       form.reset();
     } catch (error: any) {
-      console.error(error);
+      if (error.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       // refresh the router 
       router.refresh();

@@ -1,6 +1,7 @@
 'use client '
 import { useState } from "react";
 import { useEffect } from "react";
+import { useProModal } from "@/app/hooks/pro_modal";
 import { MAX_FREE_COUNTS } from "@/constants";
 import { Card, CardContent } from "./ui/card";
 import {Progress} from "./ui/progress";
@@ -15,6 +16,7 @@ interface freeCounterProps {
 const freeCounter = ( {
     apiLimitCount = 0
 }: freeCounterProps) => {
+    const proModal = useProModal();
     const [mounted, setMounted] = useState(false)
     useEffect(() => {
         setMounted(true)
@@ -30,7 +32,7 @@ const freeCounter = ( {
             </p>
             <Progress className="h-3" value={(apiLimitCount / MAX_FREE_COUNTS) * 100} />
           </div>
-          <Button  variant={"upgrade"} className="w-full">
+          <Button onClick={proModal.onOpen} variant={"upgrade"} className="w-full">
             Upgrade
             <Rocket className="w-4 h-4 ml-2 fill-white" />
           </Button>

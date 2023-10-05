@@ -2,6 +2,7 @@
 import * as z from "zod";
 import axios from "axios";
 import { useState } from "react";
+import { useProModal } from "@/app/hooks/pro_modal";
 import EmptyImage from "@/components/ui/empty_image";
 import {resolutionOptions} from './constant';
 import {numberOfImages} from './constant';
@@ -20,6 +21,7 @@ import { Loader, Download, ImageIcon} from "lucide-react";
 const ImagePage = () => {
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -43,7 +45,9 @@ const ImagePage = () => {
       setImages(urls);
       form.reset();
     } catch (error: any) {
-      console.error(error);
+       if (error.response?.status === 403) {
+          proModal.onOpen();
+       }
       
     } finally {
       // refresh the router 

@@ -70,7 +70,7 @@ const Sidebar = ({apiLimitCount = 0}:SidebarProps) => {
                   <span className="text-base">{route.name}</span>
                 </div>
               </Link>
-              
+
             ))}
           </div>
           <div className='pt-48 '>
